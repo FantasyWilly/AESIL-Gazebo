@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<sdf version="1.10">
+  <model name="aruco">
+    <static>true</static>
+
+    <link name="marker_link">
+      <collision name="collision">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+          </plane>
+        </geometry>
+      </collision>
+
+      <!-- 可見平面 -->
+      <visual name="aruco_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <cast_shadows>false</cast_shadows>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>1.5 1.5</size>
+          </plane>
+        </geometry>
+
+        <material>
+          <ambient>0.8 0.8 0.8 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>materials/textures/aruco_01.png</albedo_map>
+              <roughness>0.6</roughness>
+              <metalness>0</metalness>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>
+
