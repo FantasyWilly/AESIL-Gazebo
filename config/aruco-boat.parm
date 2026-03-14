@@ -1,0 +1,7 @@
+# -------------- MY SETTING -------------
+
+# WPNAV
+WPNAV_SPEED      150
+
+#SYSTEM_ID
+MAV_SYSID 	 2
