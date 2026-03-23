@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.9">
-  <world name="aruco_runway_drone">
+  <world name="aruco_runway">
     <physics name="1ms" type="ignore">
       <max_step_size>0.001</max_step_size>
       <real_time_factor>1.0</real_time_factor>
@@ -55,22 +55,19 @@
       <direction>-0.5 0.1 -0.9</direction>
     </light>
     
-    <!-- runway -->
     <include>
-      <pose degrees="true">-29 545 0 0 0 363</pose>
       <uri>model://runway</uri>
+      <pose degrees="true">-29 545 0 0 0 363</pose>
     </include>
 
-    <!-- Rover -->
     <include>
-      <pose degrees="true">0 0 0.0 0 0 90</pose>
-      <uri>model://rover_with_aruco</uri>
+      <uri>model://iris_with_gimbal</uri>
+      <pose degrees="true">0 0 0.195 0 0 90</pose>
     </include>
     
-    <!-- Drone -->
     <include>
-      <uri>model://copter_01</uri>
-      <pose degrees="true">0 0 0.7 0 0 90</pose>
+      <uri>model://aruco</uri>
+      <pose degrees="true">0 0 0.02 0 0 0</pose>
     </include>
 
   </world>
