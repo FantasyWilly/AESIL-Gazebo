@@ -10,7 +10,7 @@ sleep 3
 
 # 開啟影像串流
 gnome-terminal --tab --title="Camera Stream" -- bash -c "
-gz topic -t /world/aruco_runway/model/copter-01/model/gimbal/link/pitch_link/sensor/camera/image/enable_streaming -m gz.msgs.Boolean -p 'data: 1';
+gz topic -t /world/aruco_runway/model/iris_with_gimbal/model/gimbal/link/pitch_link/sensor/camera/image/enable_streaming -m gz.msgs.Boolean -p 'data: 1';
 exec bash
 "
 
