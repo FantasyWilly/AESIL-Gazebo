@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <model name="iris_with_fixed_camera">
+    <include>
+      <uri>model://iris_with_ardupilot</uri>
+    </include>
+    <link name="nose_camera_link">
+      <!-- Iris: +X forward, +Z up. Camera: +X forward.
+           x y z roll pitch yaw; positive pitch looks down. -->
+      <pose relative_to="iris_with_ardupilot::iris_with_standoffs::base_link" degrees="true">0.20 0 -0.05 0 15 0</pose>
+      <inertial>
+        <mass>0.02</mass>
+        <inertia>
+          <ixx>0.0000053333</ixx><iyy>0.0000053333</iyy><izz>0.0000053333</izz>
+          <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz>
+        </inertia>
+      </inertial>
+
+      <visual name="camera_body">
+        <geometry><box><size>0.04 0.04 0.04</size></box></geometry>
+        <material><ambient>0.1 0.1 0.1 1</ambient><diffuse>0.1 0.1 0.1 1</diffuse></material>
+      </visual>
+
+      <sensor name="camera" type="camera">
+        <pose>0.025 0 0 0 0 0</pose>
+        <topic>/iris_fixed/camera/image</topic>
+        <always_on>true</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+
+        <camera>
+          <horizontal_fov>0.9966</horizontal_fov>
+          <image><width>1280</width><height>720</height><format>R8G8B8</format></image>
+          <clip><near>0.05</near><far>15000</far></clip>
+        </camera>
+
+        <plugin name="GstCameraPlugin" filename="GstCameraPlugin">
+          <udp_host>127.0.0.1</udp_host>
+          <udp_port>5600</udp_port>
+          <use_basic_pipeline>true</use_basic_pipeline>
+          <use_cuda>false</use_cuda>
+        </plugin>
+      </sensor>
+
+    </link>
+    <joint name="nose_camera_joint" type="fixed">
+      <parent>iris_with_ardupilot::iris_with_standoffs::base_link</parent>
+      <child>nose_camera_link</child>
+    </joint>
+    <!-- Original gimbal mass: 0.65 kg; fixed camera: 0.02 kg.
+         Ballast restores payload mass, not the original inertia tensor.
+         x = -(0.02 * 0.20) / 0.63 balances camera's forward mass moment. -->
+    <link name="ballast_link">
+      <pose relative_to="iris_with_ardupilot::iris_with_standoffs::base_link">-0.00634920635 0 -0.10 0 0 0</pose>
+      <inertial>
+        <mass>0.63</mass>
+        <!-- Uniform box: Ixx=m*(y*y+z*z)/12, etc.; size 0.12 0.08 0.04 m. -->
+        <inertia>
+          <ixx>0.00042</ixx>
+          <iyy>0.00084</iyy>
+          <izz>0.001092</izz>
+          <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz>
+        </inertia>
+      </inertial>
+      <visual name="ballast_visual">
+        <geometry><box><size>0.12 0.08 0.04</size></box></geometry>
+        <material>
+          <ambient>0.25 0.25 0.25 1</ambient>
+          <diffuse>0.25 0.25 0.25 1</diffuse>
+        </material>
+      </visual>
+      <collision name="ballast_collision">
+        <geometry><box><size>0.12 0.08 0.04</size></box></geometry>
+      </collision>
+    </link>
+    <joint name="ballast_joint" type="fixed">
+      <parent>iris_with_ardupilot::iris_with_standoffs::base_link</parent>
+      <child>ballast_link</child>
+    </joint>
+  </model>
+</sdf>
